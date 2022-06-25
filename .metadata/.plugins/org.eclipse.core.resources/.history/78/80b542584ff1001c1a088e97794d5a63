@@ -1,0 +1,44 @@
+<%@page import="com.example.demo.pojo.ShoePojo"%>
+<%@page import="java.util.List"%>
+<%@page import="com.example.demo.dao.ShoeDao"%>
+<%@ page language="java" contentType="text/html; charset=ISO-8859-1"
+    pageEncoding="ISO-8859-1"%>
+    <%@ page import="com.example.demo.*" %>
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="ISO-8859-1">
+<title>Shoes</title>
+</head>
+<body>
+<button> New Shoe </button>
+<%!
+ShoeDao obj = new ShoeDao();
+List<ShoePojo> shoes = obj.getShoes();
+
+for(ShoePojo s:shoes){
+%>
+
+<table>
+<tr>
+<th> Name </th>
+<th> Company </th>
+<th> Description </th>
+<th> Price </th>
+<th> Quantity </th>
+</tr>
+
+<tr>
+
+<th> <%=s.getName() %> </th>
+<th> <%=s.getCompany() %> </th>
+<th> <%=s.getDescription() %> </th>
+<th> <%=s.getPrice() %> </th>
+<th> <%=s.getQuantity() %> </th>
+</tr>
+
+<%!} %>
+</table>
+
+</body>
+</html>

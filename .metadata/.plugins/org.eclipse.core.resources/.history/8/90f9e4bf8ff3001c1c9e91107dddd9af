@@ -1,0 +1,58 @@
+package com.example.demo.Controllers;
+
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.servlet.ModelAndView;
+
+import com.example.demo.dao.UserDao;
+import com.example.demo.pojo.UserPojo;
+
+@Controller
+public class UserControllers {
+	
+	@Autowired
+	UserDao obj;
+	
+	// ADMIN ----------------------------------------------------------------------------
+	
+	@RequestMapping("/AdminDashboard")
+	public ModelAndView admin() {
+		ModelAndView mv = new ModelAndView();
+		mv.setViewName("Admin/dashborad.jsp");
+		return mv;
+	}
+	
+	@RequestMapping("/register")
+	public ModelAndView reg() {
+		ModelAndView mv = new ModelAndView();
+		mv.setViewName("/User/Register.jsp");
+		return mv;
+	}
+	
+	@RequestMapping("/register_new")
+	public ModelAndView reg_new(HttpServletRequest req, HttpServletResponse res) {
+		ModelAndView mv = new ModelAndView();
+		
+		UserPojo user = new UserPojo();
+		user.setAdmin(false);
+		user.setName(req.getParameter("Name"));
+		user.setAddress(req.getParameter("Address"));
+		user.setEmail(req.getParameter("Email"));
+		user.setPassword(req.getParameter("Password"));
+		user.setPhone_no(req.getParameter("Phone_no"));
+		
+		obj.insert(user);
+		
+		if(obj!=null) {
+			mv.setViewName("/User/Shoe_list.jsp");
+		}else {
+			mv.setViewName("/Error.html");
+		}
+		return mv;
+	}
+
+}

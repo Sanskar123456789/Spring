@@ -1,0 +1,9 @@
+package com.example.demo;
+
+import org.springframework.security.web.authentication.DelegatingAuthenticationFailureHandler;
+
+public class LoginFailureHandler extends DelegatingAuthenticationFailureHandler {
+	
+	
+
+}

@@ -1,0 +1,31 @@
+package com.example.demo.dao;
+
+import java.util.Optional;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
+import com.example.demo.pojo.CategoryPojo;
+import com.example.demo.pojo.OrderPojo;
+
+@Service
+public class CatDao {
+	
+	@Autowired
+	CatRepo obj;
+	
+	// insert 
+	public CategoryPojo insert(CategoryPojo c) {
+		return obj.save(c);
+	}
+	
+	// update
+	public CategoryPojo update(CategoryPojo c) {
+		CategoryPojo cat = obj.findById(c.getId()).orElse(null);
+		cat.setCat(c.getCat());
+		return obj.save(cat);
+	}
+	
+	// delete
+	
+}

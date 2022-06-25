@@ -1,0 +1,40 @@
+package com.example.demo.Controllers;
+
+import java.util.logging.Logger;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.servlet.ModelAndView;
+
+import com.example.demo.dao.OrderDao;
+import com.example.demo.dao.ShoeDao;
+import com.example.demo.pojo.OrderPojo;
+import com.example.demo.pojo.ShoePojo;
+
+@Controller
+public class OrderController {
+
+	@Autowired
+	OrderDao obj;
+	@Autowired 
+	ShoeDao obj1;
+	
+	Logger log = Logger.getAnonymousLogger();
+	
+	@RequestMapping("/Shoes_list/order/{id}/{userid}")
+	public ModelAndView Order(@PathVariable("id") int id ,@PathVariable("userid") int userid) {
+		log.info("In order");
+		ModelAndView mv = new ModelAndView();
+		ShoePojo order = obj1.getShoe(id);
+		mv.setViewName("/User/InitaiateOrder.jsp");
+		
+		log.info("User");
+		mv.addObject("userid",userid);
+		log.info("shoe order");
+		mv.addObject("Shoe_details", order);
+		return mv;
+	}
+	
+}

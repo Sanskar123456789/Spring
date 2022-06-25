@@ -1,0 +1,63 @@
+package com.example.demo.Controllers;
+
+import java.util.logging.Logger;
+
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.servlet.ModelAndView;
+
+import com.example.demo.dao.OrderDao;
+import com.example.demo.dao.ShoeDao;
+import com.example.demo.pojo.OrderPojo;
+import com.example.demo.pojo.ShoePojo;
+
+@Controller
+public class OrderController {
+
+	@Autowired
+	OrderDao obj;
+	@Autowired 
+	ShoeDao obj1;
+	
+	Logger log = Logger.getAnonymousLogger();
+	
+	@RequestMapping("/Shoes_list/order/{id}/{userid}")
+	public ModelAndView Order(@PathVariable("id") int id ,@PathVariable("userid") int userid) {
+		log.info("In order");
+		ModelAndView mv = new ModelAndView();
+		ShoePojo order = obj1.getShoe(id);
+		mv.setViewName("/User/InitaiateOrder.jsp");
+		
+		log.info("User");
+		mv.addObject("userid",userid);
+		log.info("shoe order");
+		mv.addObject("Shoe_details", order);
+		return mv;
+	}
+	
+	@ResponseBody
+	@RequestMapping("quantity")
+	public String placeOrder(HttpServletRequest req,HttpServletResponse res ) {
+		
+		OrderPojo order = new OrderPojo();
+		order.setQuan(Integer.parseInt(req.getParameter("quan")));
+		ShoePojo shoe = null;
+		shoe.setCompany(req.getParameter("company"));
+		shoe.setDescription(req.getParameter("description"));
+		shoe.setName(req.getParameter("name"));
+		shoe.setPrice(Integer.parseInt(req.getParameter("price")));
+		shoe.setQuantity(Integer.parseInt(req.getParameter("quantity")));
+		shoe.setId(Integer.parseInt(req.getParameter("shoeid")));
+		order.setShoe_id(shoe);
+		order.setQuan(Integer.parseInt(req.getParameter("quan")));
+		obj.insert(order);
+		return "Order Placed";
+	}
+	
+}
